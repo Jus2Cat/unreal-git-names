@@ -1,0 +1,61 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: windows-latest  # Important for UTF-8 console compatibility testing
+
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Display Python version
+      run: python --version
+
+    - name: Run integration tests
+      run: |
+        python -m unittest discover tests -v
+
+    - name: Test CLI basic functionality
+      run: |
+        python scripts/get_actor_name.py --help
+
+  lint:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install linting tools
+      run: |
+        pip install flake8 black
+
+    - name: Check code formatting with Black
+      run: |
+        black --check scripts/get_actor_name.py
+
+    - name: Lint with flake8
+      run: |
+        flake8 scripts/get_actor_name.py --max-line-length=100 --ignore=E203,W503
