@@ -25,7 +25,10 @@ LandscapeProxy_MainWorld
 I have created a Pull Request to integrate this functionality natively into **[SourceGit](https://github.com/sourcegit-scm/sourcegit)**.
 
 You can test this feature right now!
-👉 **Download the custom SourceGit build from the [Releases](../../releases) page.**
+👉 **Download the custom SourceGit build for Windows from the [Releases](../../releases) page.**
+
+![One-file-per-actor-git-support](https://github.com/user-attachments/assets/2a9e79a9-e564-42b0-956a-72acbb193692)
+
 
 This build includes:
 - Native decoding of OFPA files in the file list.
