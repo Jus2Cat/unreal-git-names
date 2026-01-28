@@ -65,9 +65,14 @@ def process_single_file(file_path):
 def run_benchmark(search_path, runs=3, warmup=1, disable_gc=False, recursive=True):
     search_path = os.path.abspath(search_path)
     
-    print(f"Scanning for .uasset files in: {search_path}...")
-    pattern = "**/*.uasset" if recursive else "*.uasset"
-    files = glob.glob(os.path.join(search_path, pattern), recursive=recursive)
+    files = []
+    if os.path.isfile(search_path):
+         files = [search_path]
+         print(f"Benchmarking single file: {search_path}")
+    else:
+        print(f"Scanning for .uasset files in: {search_path}...")
+        pattern = "**/*.uasset" if recursive else "*.uasset"
+        files = glob.glob(os.path.join(search_path, pattern), recursive=recursive)
     
     if not files:
         return "No .uasset files found."
@@ -111,3 +116,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
